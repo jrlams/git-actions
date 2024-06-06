@@ -20,6 +20,7 @@ jobs:
       - name: Declenchemnt du second workflow        
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
+          repository: jrlams/git-actions
           event-type: test_result
-          client-payload: '{"event_type": "test_result", "client_payload": {"passed": false, "message": "Error: timeout"}}'
+          #client-payload: '{"event_type": "test_result", "client_payload": {"passed": false, "message": "Error: timeout"}}'

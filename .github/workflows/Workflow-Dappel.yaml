@@ -1,0 +1,25 @@
+name: WorkflowDappel
+
+on:
+  push:
+    branches: ["test"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run build script
+        run: |
+          echo "Build du projet..."
+          
+      - name: Declenchemnt du second workflow        
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: test_result
+          client-payload: '{"event_type": "test_result", "client_payload": {"passed": false, "message": "Error: timeout"}}'

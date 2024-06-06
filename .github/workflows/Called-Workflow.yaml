@@ -1,0 +1,29 @@
+name: Called Workflow
+
+on:
+  repository_dispatch:
+    types: [test_result]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print dispatch payload
+        run: |
+          echo "Event type: ${{ github.event.client_payload.event_type }}"
+          echo "Test passed: ${{ github.event.client_payload.client_payload.passed }}"
+          echo "Message: ${{ github.event.client_payload.client_payload.message }}"
+          
+      - name: Run deployment script if test passed
+        if: ${{ github.event.client_payload.client_payload.passed == 'true' }}
+        run: |
+          echo "Deploying the project..."
+        
+      - name: Print message if test failed
+        if: ${{ !github.event.client_payload.client_payload.passed == 'true' }}
+        run: |
+          echo "${{ github.event.client_payload.message }}"

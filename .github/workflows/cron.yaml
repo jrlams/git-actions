@@ -1,0 +1,14 @@
+name: Scheduled Workflow
+on:
+  schedule:
+    - cron: '30 5,17 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run [   Hello Worlds]
+      run: echo "Hello, world!"

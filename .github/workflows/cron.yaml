@@ -1,18 +1,17 @@
 name: Scheduled Workflow
 on:
-  schedule:
-    - cron: '* * * * *'
-
-#   workflow_dispatch: 
-#   push:
-#     branches: ["main"]
+  workflow_run:
+    workflows: [Test-Python]
+    types: [completed]
 
 jobs:
-  build:
+  on-success:
     runs-on: ubuntu-latest
-    steps:  
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Run [   Hello Worlds]
-      run: echo "Hello, world!"
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo 'The triggering workflow passed'
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'

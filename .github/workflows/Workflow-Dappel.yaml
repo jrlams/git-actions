@@ -1,8 +1,9 @@
 name: WorkflowDappel
 
 on:
-  push:
-    branches: ["master"]
+  # push:
+  #   branches: ["master"]
+  delete: 
   workflow_dispatch:
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
       - name: Declenchemnt du second workflow        
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.PAT_GA }}
           repository: jrlams/git-actions
           event-type: test_result
           client-payload: '{"event_type": "test_result", "client_payload": {"passed": false, "message": "Error: timeout"}}'
